@@ -51,7 +51,8 @@ jobs:
         working-directory: task-manager-app/backend
         run: |
           chmod +x node_modules/.bin/ts-node-dev
-          ./node_modules/.bin/ts-node-dev --respawn --transpile-only src/server.ts &
+          ./node_modules/.bin/ts-node-dev --respawn --transpile-only src/server.ts > /tmp/backend.log 2>&1 &
+          echo "Backend PID: $!"
 
       - name: Install Frontend dependencies
         working-directory: task-manager-app/frontend
@@ -61,16 +62,17 @@ jobs:
         working-directory: task-manager-app/frontend
         run: |
           chmod +x node_modules/.bin/vite
-          ./node_modules/.bin/vite &
+          ./node_modules/.bin/vite > /tmp/frontend.log 2>&1 &
+          echo "Frontend PID: $!"
 
       - name: Wait for servers
         run: |
-          chmod +x node_modules/.bin/wait-on || true
-          npx wait-on \
-            http://localhost:3000/api/auth/me \
-            http://localhost:5173 \
-            --timeout 120000
-        working-directory: task-manager-app/backend
+          sleep 15
+          echo "=== BACKEND LOG ==="
+          cat /tmp/backend.log
+          echo "=== FRONTEND LOG ==="
+          cat /tmp/frontend.log
+          npx wait-on http://localhost:3000/api/auth/me http://localhost:5173 --timeout 60000
 
       - name: Install TAF dependencies
         run: npm install
