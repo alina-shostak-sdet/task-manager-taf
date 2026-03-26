@@ -59,13 +59,18 @@ jobs:
 
       - name: Start Frontend
         working-directory: task-manager-app/frontend
-        run: npm run dev &
+        run: |
+          chmod +x node_modules/.bin/vite
+          ./node_modules/.bin/vite &
 
       - name: Wait for servers
         run: |
-          npx wait-on http://localhost:3000/api/auth/me \
+          chmod +x node_modules/.bin/wait-on || true
+          npx wait-on \
+            http://localhost:3000/api/auth/me \
             http://localhost:5173 \
-            --timeout 60000
+            --timeout 120000
+        working-directory: task-manager-app/backend
 
       - name: Install TAF dependencies
         run: npm install
