@@ -30,6 +30,10 @@ jobs:
         working-directory: task-manager-app/backend
         run: npm install
 
+      - name: Rebuild native modules
+        working-directory: task-manager-app/backend
+        run: npm rebuild better-sqlite3
+
       - name: Create Backend .env
         working-directory: task-manager-app/backend
         run: |
