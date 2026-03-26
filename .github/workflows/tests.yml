@@ -70,14 +70,10 @@ jobs:
 
       - name: Wait for servers
         run: |
-          sleep 15
-          echo "=== BACKEND LOG ==="
-          cat /tmp/backend.log
-          echo "=== FRONTEND LOG ==="
-          cat /tmp/frontend.log
+          sleep 20
           node_modules/.bin/wait-on \
-            http://localhost:3000/api/auth/me \
-            http://localhost:5173 \
+            tcp:3000 \
+            tcp:5173 \
             --timeout 60000
 
       - name: Install Playwright browsers
