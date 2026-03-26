@@ -72,7 +72,10 @@ jobs:
           cat /tmp/backend.log
           echo "=== FRONTEND LOG ==="
           cat /tmp/frontend.log
-          npx wait-on http://localhost:3000/api/auth/me http://localhost:5173 --timeout 60000
+          node_modules/.bin/wait-on \
+            http://localhost:3000/api/auth/me \
+            http://localhost:5173 \
+            --timeout 60000
 
       - name: Install TAF dependencies
         run: npm install
