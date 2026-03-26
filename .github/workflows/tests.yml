@@ -39,11 +39,11 @@ jobs:
 
       - name: Seed database
         working-directory: task-manager-app/backend
-        run: npm run seed
+        run: npx ts-node src/db/seed.ts
 
       - name: Start Backend
         working-directory: task-manager-app/backend
-        run: npm run dev &
+        run: npx ts-node-dev --respawn --transpile-only src/server.ts &
 
       - name: Install Frontend dependencies
         working-directory: task-manager-app/frontend
