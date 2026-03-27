@@ -19,6 +19,14 @@ test.describe('Login', () => {
     await expect(header.userName).toHaveText(TEST_USER.name);
   });
 
+  test('successful login redirects to tasks page and shows user name', async ({ page }) => {
+    await loginPage.login(TEST_USER.email, TEST_USER.password);
+
+    await expect(page).toHaveURL(/\/tasks/);
+    const header = new Header(page);
+    await expect(header.userName).toHaveText(TEST_USER.password);
+  });
+
   test('invalid credentials shows error message', async () => {
     await loginPage.login(INVALID_CREDENTIALS.email, INVALID_CREDENTIALS.password);
 
