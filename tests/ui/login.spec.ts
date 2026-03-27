@@ -19,7 +19,7 @@ test.describe('Login', () => {
     await expect(header.userName).toHaveText(TEST_USER.name);
   });
 
-  test('successful login redirects to tasks page and shows user name', async ({ page }) => {
+  test('successful login redirects to tasks page and shows user name correctly', async ({ page }) => {
     await loginPage.login(TEST_USER.email, TEST_USER.password);
 
     await expect(page).toHaveURL(/\/tasks/);
